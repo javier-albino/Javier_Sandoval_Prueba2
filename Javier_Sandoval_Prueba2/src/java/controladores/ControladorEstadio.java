@@ -43,29 +43,30 @@ public class ControladorEstadio extends HttpServlet {
 
     private void registrar(HttpServletRequest request, HttpServletResponse response) throws IOException{
            try{
-            int id = Integer.parseInt(request.getParameter("id").trim());
+        
             String nombre = request.getParameter("nombre").trim();
             int capacidad = Integer.parseInt(request.getParameter("capacidad").trim());
            int ciudad =Integer.parseInt( request.getParameter("ciudad").trim());
-            if(id<1||nombre.equals("")||capacidad<1||ciudad<1){
+            if(capacidad<1||ciudad<1){
                 response.sendRedirect("index.jsp?msj=valores erroneos");
             }else{
                 CiudadDAO ed = new CiudadDAO();
-                Estadio nuevoEstadio = new Estadio (id,nombre,capacidad,ed.obtenerCiudad(ciudad));
+                Estadio nuevoEstadio = new Estadio (nombre,capacidad,ed.obtenerCiudad(ciudad));
                 EstadioDAO pd = new EstadioDAO();
                 if(pd.obtenerEstadio(nuevoEstadio.getId())==null){
+                    
                     int respuesta = pd.registrar(nuevoEstadio);
                     if(respuesta==1){
-                    response.sendRedirect("registraestadio.jsp?msj=Estadio registrado");
+                    response.sendRedirect("registroestadio.jsp?msj=Estadio registrado");
                     }else{
-                    response.sendRedirect("index.jsp?msj=Estadio no se pudo registrar");
+                    response.sendRedirect("registroestadio.jsp?msj=Estadio no se pudo registrar");
                     }
                 }else{
-                    response.sendRedirect("index.jsp?msj=Estadio ya existe");
+                    response.sendRedirect("resgistroestadio.jsp?msj=Estadio ya existe");
                 }
             }
            }catch(Exception e){
-               response.sendRedirect("registraestadio.jsp?msj="+e.getMessage());
+               response.sendRedirect("registroestadio.jsp?msj="+e.getMessage());
            }
 
     }

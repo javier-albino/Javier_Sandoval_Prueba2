@@ -13,13 +13,15 @@ import modelos.Ciudad;
  */
 public class EstadioDAO extends Conexion {
     
-    public int registrar(Estadio estadio) throws SQLException{
+    public int registrar(Estadio  es ) throws SQLException{
         String sentencia = "Insert into estadio  values (?,?,?,?)";
         
         try{
             conectar();
             PreparedStatement ps = obtenerPS(sentencia);
-            ps.setString(1, estadio.getNombre());
+            ps.setString(1, es.getNombre());
+            ps.setInt(2, es.getCapacidad());
+            ps.setInt(3, es.getCiudad());
             return ps.executeUpdate();
         }catch(Exception e){
             return -1;
@@ -33,7 +35,8 @@ public class EstadioDAO extends Conexion {
             conectar();
             PreparedStatement ps = obtenerPS(sentencia);
             ps.setString(1, estadio.getNombre());
-            ps.setInt(2, estadio.getId());
+            ps.setInt(2, estadio.getCapacidad());
+            
             return ps.executeUpdate();
         }catch(Exception e){
             return -1;
